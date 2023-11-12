@@ -1,0 +1,18 @@
+#+title: interactive EOs
+
+An interactive Haskell program for building Smith Normal Form.
+
+Mostly a PoC for a [[file:Matrix.hs][Matrix representation]] -- which I might extend and reuse elsewhere.
+
+The purpose of this program is to interactively carry out elementary row and column operations via a sort of REPL: originally just to make a Smith Normal Form, but there is no such restriction.
+
+Feel free to use and extend this program.
+
+** Requirements
+
+- [[https://www.haskell.org/ghc/][ghc]] installable via [[https://www.haskell.org/ghcup/][ghcup]]
+- [[https://hackage.haskell.org/package/fin-0.0.3][fin]] (Hackage) installable via =cabal install=
+
+** Building
+
+Once I finish the REPL component, simply load it via =ghci=. Instructions to follow implementation.
