@@ -6,14 +6,17 @@
 module Elementary where
 
 import Data.Kind
+import Data.Nat
+import Data.Fin (Fin(..))
+import qualified Data.Fin as F
 
-type EOperable :: Type -> Type -> Type -> Type -> Constraint
+type EOperable :: Type -> Nat -> Nat -> Type -> Constraint
 class EOperable m i j a | m -> i j a where
-  eroSwap :: m -> i -> i -> m -- swaps indices
-  eroScale :: m -> a -> i -> m -- scales on index
-  eroAdd:: m -> a -> i -> i -> m -- adds to the second index
+  eroSwap :: m -> Fin i -> Fin i -> m -- swaps indices
+  eroScale :: m -> a -> Fin i -> m -- scales on index
+  eroAdd:: m -> a -> Fin i -> Fin i -> m -- adds to the second index
 
-  ecoSwap :: m -> j -> j -> m -- swaps indices
-  ecoScale :: m -> a -> j -> m -- scales on index
-  ecoAdd:: m -> a -> j -> j -> m -- adds to the second index
+  ecoSwap :: m -> Fin j -> Fin j -> m -- swaps indices
+  ecoScale :: m -> a -> Fin j -> m -- scales on index
+  ecoAdd:: m -> a -> Fin j -> Fin j -> m -- adds to the second index
 

@@ -34,8 +34,8 @@ instance (Show a, Show (Matrix (S m) (S n) a), Show (Matrix (S m) (S m) a), Show
   show :: SNF (S m) (S n) a -> String
   show SNF{..} = show eros <> "\n --- \n" <> show base <> "\n --- \n" <> show ecos
 
-instance (Num a, EOperable (Matrix m n a) (Fin m) (Fin n) a)
-  => EOperable (SNF m n a) (Fin m) (Fin n) a where
+instance (Num a, EOperable (Matrix m n a) m n a)
+  => EOperable (SNF m n a) m n a where
   eroSwap s@SNF{..} a a' = s { eros = eroSwap eros a a' , base = eroSwap base a a' }
   eroScale s@SNF{..} c a = s { eros = eroScale eros c a , base = eroScale base c a }
   eroAdd s@SNF{..} c a a' = s { eros = eroAdd eros c a a' , base = eroAdd base c a a' }

@@ -42,7 +42,7 @@ instance Functor (Matrix m n) where
   fmap :: (a -> b) -> Matrix m n a -> Matrix m n b
   fmap f (M m) = M $ \i j -> f (m i j)
 
-instance Num a => EOperable (Matrix m n a) (Fin m) (Fin n) a where
+instance Num a => EOperable (Matrix m n a) m n a where
   eroSwap :: Matrix m n a -> Fin m -> Fin m -> Matrix m n a
   eroSwap (M m) a b = M $ \i j -> m (if i == a then b else if i == b then a else i) j
   
