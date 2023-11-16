@@ -1,3 +1,4 @@
+{-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE StandaloneKindSignatures #-}
 
@@ -8,13 +9,10 @@ import Data.Kind
 import Data.Nat
 import Data.Fin (Fin (..))
 import qualified Data.Fin as F
+import Data.List
 
 import Elementary
-
-type One = S Z
-type Two = S One
-type Three = S Two
-type Four = S Three
+import Latex
 
 type Matrix :: Nat -> Nat -> Type -> Type
 data Matrix m n a = M (Fin m -> Fin n -> a)
@@ -37,6 +35,16 @@ instance (Show a, Show (Matrix One (S n) a), Show (Matrix (S m) (S n) a))
   show (M m) = show r1 <> "\n" <> show rest
     where r1 :: Matrix One (S n) a = M $ \_ j -> m FZ j
           rest :: Matrix (S m) (S n) a = M $ \i j -> m (FS i) j
+
+instance (Show a, Show (Matrix (S m) (S n) a)) => Latex (Matrix (S m) (S n) a) where
+  texify :: Matrix (S m) (S n) a -> String
+  texify m =
+    -- use @show m@, split it up: put "&"s in between elements and
+    -- "\\"s on the end of the lines before joining it back up
+    let
+      elements = map words (lines (show m))
+      m' = intercalate " \\\\\n" $ map (intercalate " & ") elements
+    in "\\begin{matrix}\n" ++ m' ++ "\n\\end{matrix}"
 
 instance Functor (Matrix m n) where
   fmap :: (a -> b) -> Matrix m n a -> Matrix m n b

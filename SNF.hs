@@ -14,6 +14,7 @@ import qualified Data.Fin as F
 
 import Matrix
 import Elementary
+import Latex
 
 type SNF :: Nat -> Nat -> Type -> Type
 data SNF m n a = SNF
@@ -43,3 +44,11 @@ instance (Num a, EOperable (Matrix m n a) m n a)
   ecoSwap s@SNF{..} b b' = s { ecos = ecoSwap ecos b b' , base = ecoSwap base b b' }
   ecoScale s@SNF{..} c b = s { ecos = ecoScale ecos c b , base = ecoScale base c b }
   ecoAdd s@SNF{..} c b b' = s { ecos = ecoAdd ecos c b b' , base = ecoAdd base c b b' }
+
+instance (Show a, Latex (Matrix (S m) (S n) a), Latex (Matrix (S m) (S m) a), Latex (Matrix (S n) (S n) a))
+  => Latex (SNF (S m) (S n) a) where
+  texify :: SNF (S m) (S n) a -> String
+  texify SNF{..} =
+    "\\left(\n" ++
+    texify eros ++ "\n\\left|\n" ++ texify base ++ "\n\\right|\n" ++ texify ecos
+    ++ "\n\\right)"
