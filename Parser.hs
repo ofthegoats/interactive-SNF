@@ -51,3 +51,7 @@ lineToOp (stripPrefix "add " ->
     (Row m, Row m') -> Just $ EROAdd (read c) m m'
     (Column n, Column n') -> Just $ ECOAdd (read c) n n'
 lineToOp _ = Nothing
+
+instance (SNatI m, SNatI n, Read a) => Read (Operation m n a) where
+  readsPrec :: Int -> ReadS (Operation m n a)
+  readsPrec _ (lineToOp -> Just res) = [(res, "")]

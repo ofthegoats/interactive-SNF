@@ -14,6 +14,8 @@ import Data.List
 import Elementary
 import Latex
 
+type One = S Z
+
 type Matrix :: Nat -> Nat -> Type -> Type
 data Matrix m n a = M (Fin m -> Fin n -> a)
 
