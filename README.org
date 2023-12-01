@@ -13,6 +13,128 @@ Feel free to use and extend this program.
 - [[https://www.haskell.org/ghc/][ghc]] installable via [[https://www.haskell.org/ghcup/][ghcup]]
 - [[https://hackage.haskell.org/package/fin-0.0.3][fin]] (Hackage) installable via =cabal install=
 
+** Usage
+
+1. In =Main.hs= describe the matrix on which you will be operating, in =matrices=. You will likely have to change the type signature.
+
+2. Load the program via =ghci Main.hs= and run =main=
+
+3. Operations are of the form described in =Parser.hs=
+   - =scale {r,c}N K=
+   - =swap {r,c}N {r,c}M=
+   - =add {r,c}N K {r,c}M=
+
+** Example
+
+#+begin_src
+λ> main
+\left(
+\begin{matrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{matrix}
+\left|
+\begin{matrix}
+4 & 6 & 0 & -4 \\
+8 & -6 & 4 & 0 \\
+0 & 10 & 12 & -8
+\end{matrix}
+\right|
+\begin{matrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{matrix}
+\right)
+> add c4 1 c1
+\left(
+\begin{matrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{matrix}
+\left|
+\begin{matrix}
+0 & 6 & 0 & -4 \\
+8 & -6 & 4 & 0 \\
+-8 & 10 & 12 & -8
+\end{matrix}
+\right|
+\begin{matrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 1
+\end{matrix}
+\right)
+> add r3 1 r2
+\left(
+\begin{matrix}
+1 & 0 & 0 \\
+0 & 1 & 1 \\
+0 & 0 & 1
+\end{matrix}
+\left|
+\begin{matrix}
+0 & 6 & 0 & -4 \\
+0 & 4 & 16 & -8 \\
+-8 & 10 & 12 & -8
+\end{matrix}
+\right|
+\begin{matrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 1
+\end{matrix}
+\right)
+> swap r1 r3
+\left(
+\begin{matrix}
+0 & 0 & 1 \\
+0 & 1 & 1 \\
+1 & 0 & 0
+\end{matrix}
+\left|
+\begin{matrix}
+-8 & 10 & 12 & -8 \\
+0 & 4 & 16 & -8 \\
+0 & 6 & 0 & -4
+\end{matrix}
+\right|
+\begin{matrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 1
+\end{matrix}
+\right)
+> scale c4 -1
+\left(
+\begin{matrix}
+0 & 0 & 1 \\
+0 & 1 & 1 \\
+1 & 0 & 0
+\end{matrix}
+\left|
+\begin{matrix}
+-8 & 10 & 12 & 8 \\
+0 & 4 & 16 & 8 \\
+0 & 6 & 0 & 4
+\end{matrix}
+\right|
+\begin{matrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+1 & 0 & 0 & -1
+\end{matrix}
+\right)
+> finish.
+#+end_src
+
 ** Building
 
 Once I finish the REPL component, simply load it via =ghci=. Instructions to follow implementation.
